@@ -126,6 +126,8 @@ try:
 except:
   print("error")
 
+### TEST
+
 # 獲取資料
 wav_dir = '/content/drive/MyDrive/piano_data/piano_test'
 wavs = [os.path.join(wav_dir, wav) for wav in os.listdir(wav_dir)]
