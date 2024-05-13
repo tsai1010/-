@@ -23,14 +23,16 @@ def preprocess(wav):
 
   wav = wav/(2**16)
   wav = tf.cast(wav, tf.float32)
-  # wav = tfio.audio.resample(wav, 48000, 24000)
   wav = wav/32768.
-  wav = tf.signal.stft(wav[:,0], frame_length=1024, frame_step=512, pad_end=False, window_fn=tf.signal.hann_window)
-  wav = 2*np.abs(s)/np.sum(256)
-  
-  return wav
+
+  stft = tf.signal.stft(wav[:,0], frame_length=1024, frame_step=512, pad_end=False, window_fn=tf.signal.hann_window)
+  stft = 2*tf.abs(stft)/np.sum(256)
+  stft = tf.expand_dims(stft, axis=-1)
+
+  return stft
 
 def get_label(wav):
+  wav = wav.split('/')[-1]
   wav_str = wav.replace('v', '_')
   wav_str = wav_str.split('_')
   wav_str = wav_str[1]
